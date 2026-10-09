@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4Dex | Ecossistema de Tecnologia & Marketplace Tech</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dex-dark': '#0a0d14',
+                        'dex-card': '#121824',
+                        'dex-gold': '#ffca28',
+                        'dex-gold-dark': '#c79a00',
+                        'dex-dat': '#2563eb', // Azul
+                        'dex-def': '#ef4444', // Vermelho
+                        'dex-des': '#22c55e', // Verde
+                        'dex-dev': '#06b6d4', // Ciano
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg-body: #06080e;
+            --bg-surface: #0a0d14;
+            --bg-card: #121824;
+            --text: #e2e8f0;
+            --text-strong: #ffffff;
+            --text-soft: #cbd5e1;
+            --text-muted: #94a3b8;
+            --line: rgba(255, 255, 255, 0.10);
+            --panel: rgba(18, 24, 36, 0.75);
+            --gold: #ffca28;
+            --gold-dark: #c79a00;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        body.light-mode {
+            color-scheme: light;
+            --bg-body: #f3f6fb;
+            --bg-surface: #eef3fb;
+            --bg-card: #ffffff;
+            --text: #0f172a;
+            --text-strong: #020817;
+            --text-soft: #334155;
+            --text-muted: #64748b;
+            --line: rgba(15, 23, 42, 0.10);
+            --panel: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Fundo Estelar */
+        .stars-bg {
+            position: relative;
+            isolation: isolate;
+            background-color: var(--bg-body);
+        }
+
+        .stars-bg::before {
+            content: "";
+            position: fixed;
+            inset: -18%;
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,1), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 90px 40px, rgba(255,255,255,1), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.9), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 260px 260px;
+            opacity: 0.95;
+            z-index: -1;
+            animation: star-drift 80s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes star-drift {
+            0% {
+                transform: translate3d(0, 0, 0) scale(1);
+                background-position: 0 0, 30px 40px, 80px 20px, 140px 100px;
+            }
+            50% {
+                transform: translate3d(-25px, 18px, 0) scale(1.08);
+                background-position: 30px 25px, 90px 80px, 10px 120px, 180px 40px;
+            }
+            100% {
+                transform: translate3d(22px, -16px, 0) scale(1.12);
+                background-position: 12px 35px, 60px 75px, 120px 10px, 200px 90px;
+            }
+        }
+
+        /* Sistema Orbital CSS 3D/2D */
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            aspect-ratio: 1/1;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(255, 202, 40, 0.25);
+            box-shadow: 0 0 15px rgba(255, 202, 40, 0.05);
+            transition: all 0.5s ease;
+        }
+
+        .orbit-ring-1 { width: 90%; height: 90%; animation: spin 35s linear infinite; }
+        .orbit-ring-2 { width: 70%; height: 70%; animation: spin-reverse 28s linear infinite; }
+
+        .planet-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            transform-origin: 0 0;
+        }
+
+        /* Ângulos iniciais para cada planeta */
+        .planet-dat { animation: orbitate 24s linear infinite; }
+        .planet-def { animation: orbitate 24s linear infinite; animation-delay: -6s; }
+        .planet-des { animation: orbitate 24s linear infinite; animation-delay: -12s; }
+        .planet-dev { animation: orbitate 24s linear infinite; animation-delay: -18s; }
+
+        .paused {
+            animation-play-state: paused !important;
+        }
+
+        @keyframes orbitate {
+            from { transform: rotate(0deg) translateX(220px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(220px) rotate(-360deg); }
+        }
+
+        @media (max-width: 640px) {
+            @keyframes orbitate {
+                from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes spin-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        /* Efeitos Glow para os Planetas */
+        .glow-dat { filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.8)); }
+        .glow-def { filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.8)); }
+        .glow-des { filter: drop-shadow(0 0 12px rgba(34, 197, 94, 0.8)); }
+        .glow-dev { filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.8)); }
+        .glow-gold { filter: drop-shadow(0 0 20px rgba(255, 202, 40, 0.6)); }
+
+        .glass-card {
+            background: var(--panel);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--line);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 202, 40, 0.4);
+            box-shadow: 0 0 25px rgba(255, 202, 40, 0.15);
+        }
+
+        body.light-mode {
+            background: #f4f7fb;
+        }
+
+        body.light-mode .stars-bg::before {
+            opacity: 1;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.2) 0 0.8px, transparent 1px),
+                radial-gradient(circle at 30% 35%, rgba(15, 23, 42, 0.18) 0 1px, transparent 1.2px),
+                radial-gradient(circle at 72% 18%, rgba(15, 23, 42, 0.15) 0 0.9px, transparent 1.1px),
+                linear-gradient(120deg, transparent 0%, rgba(15, 23, 42, 0.08) 35%, transparent 60%),
+                linear-gradient(300deg, transparent 0%, rgba(15, 23, 42, 0.07) 35%, transparent 60%);
+            background-size: 240px 240px, 260px 260px, 220px 220px, 420px 420px, 520px 520px;
+            animation: comet-drift-light 40s linear infinite alternate;
+        }
+
+        @keyframes comet-drift-light {
+            0% {
+                transform: translate3d(0, 0, 0) scale(1);
+                background-position: 0 0, 30px 40px, 120px 20px, 0 0, 80px 40px;
+            }
+            50% {
+                transform: translate3d(-18px, 12px, 0) scale(1.03);
+                background-position: 20px 50px, 60px 90px, 170px 40px, 70px 20px, 200px 80px;
+            }
+            100% {
+                transform: translate3d(16px, -8px, 0) scale(1.06);
+                background-position: 40px 30px, 120px 80px, 70px 120px, 140px 90px, 30px 150px;
+            }
+        }
+
+        body.light-mode .text-slate-200,
+        body.light-mode .text-slate-300,
+        body.light-mode .text-slate-400,
+        body.light-mode .text-slate-500,
+        body.light-mode .text-slate-600,
+        body.light-mode .text-slate-700,
+        body.light-mode .text-slate-50,
+        body.light-mode .text-white,
+        body.light-mode .placeholder-slate-500,
+        body.light-mode .text-slate-100 {
+            color: #111827 !important;
+        }
+
+        body.light-mode .bg-dex-dark,
+        body.light-mode .bg-dex-dark\/80,
+        body.light-mode .bg-dex-card,
+        body.light-mode .bg-dex-card\/90,
+        body.light-mode .bg-dex-card\/50,
+        body.light-mode .bg-dex-card\/30,
+        body.light-mode .bg-dex-dark\/90,
+        body.light-mode .bg-dex-dark\/60 {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        body.light-mode .bg-white\/5,
+        body.light-mode .bg-white\/10,
+        body.light-mode .bg-white\/20,
+        body.light-mode .bg-white\/30 {
+            background-color: rgba(148, 163, 184, 0.08) !important;
+        }
+
+        body.light-mode .border-white\/10,
+        body.light-mode .border-white\/20,
+        body.light-mode .border-white\/5,
+        body.light-mode .border-white\/30,
+        body.light-mode .border-white\/40 {
+            border-color: rgba(15, 23, 42, 0.10) !important;
+        }
+
+        body.light-mode .text-dex-gold,
+        body.light-mode .text-dex-dat,
+        body.light-mode .text-dex-def,
+        body.light-mode .text-dex-des,
+        body.light-mode .text-dex-dev {
+            filter: brightness(0.85);
+        }
+
+        body.light-mode input,
+        body.light-mode textarea,
+        body.light-mode select,
+        body.light-mode button,
+        body.light-mode label,
+        body.light-mode p,
+        body.light-mode h1,
+        body.light-mode h2,
+        body.light-mode h3,
+        body.light-mode h4,
+        body.light-mode span,
+        body.light-mode a {
+            color: #111827;
+        }
+
+        body.light-mode .placeholder-slate-500::placeholder {
+            color: rgba(15, 23, 42, 0.55) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06080e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffca28;
+        }
+    </style>
+</head>
+<body class="stars-bg min-h-screen text-slate-200">
+
+    <!-- Header / Nav -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dex-dark/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="src/4Dex-Logo-Black-removebg.png" alt="4Dex Logo" class="brand-logo h-12 sm:h-14 w-auto object-contain drop-shadow-[0_0_12px_rgba(255,202,40,0.35)]" data-light="src/4Dex-Logo-Black-removebg.png" data-dark="src/4Dex-Logo-removebg.png">
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium">
+                <a href="#ecossistema" class="hover:text-dex-gold transition flex items-center gap-1.5"><i class="fa-solid font-xs fa-globe text-dex-gold"></i> Ecossistema</a>
+                <a href="#pilares" class="hover:text-dex-gold transition">Pilares</a>
+                <a href="#sobre" class="hover:text-dex-gold transition">Sobre a 4Dex</a>
+                <a href="#solucoes" class="hover:text-dex-gold transition">Soluções</a>
+                <a href="#contato" class="px-5 py-2 rounded-full bg-gradient-to-r from-dex-gold-dark to-dex-gold text-black font-bold font-orbitron hover:shadow-[0_0_15px_rgba(255,202,40,0.5)] transition hover:scale-105">
+                    Conectar Agora
+                </a>
+                <button id="theme-toggle" aria-label="Alternar tema" class="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-slate-200 hover:text-dex-gold transition flex items-center justify-center">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </nav>
+
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-slate-300 hover:text-white">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dex-card border-b border-white/10 px-6 py-4 flex flex-col gap-4">
+            <a href="#ecossistema" class="mobile-link text-slate-200 hover:text-dex-gold py-1">Ecossistema Orbital</a>
+            <a href="#pilares" class="mobile-link text-slate-200 hover:text-dex-gold py-1">Os 4 Pilares</a>
+            <a href="#sobre" class="mobile-link text-slate-200 hover:text-dex-gold py-1">Sobre</a>
+            <a href="#solucoes" class="mobile-link text-slate-200 hover:text-dex-gold py-1">Soluções</a>
+            <button id="theme-toggle-mobile" aria-label="Alternar tema" class="mobile-link text-slate-200 hover:text-dex-gold py-1 text-left flex items-center gap-2">
+                <i class="fa-solid fa-sun"></i> Tema claro/escuro
+            </button>
+            <a href="#contato" class="mobile-link text-center py-2.5 rounded-lg bg-dex-gold text-black font-bold font-orbitron">Conectar Agora</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION - SISTEMA ORBITAL -->
+    <section id="ecossistema" class="pt-28 lg:pt-36 pb-16 px-4 max-w-7xl mx-auto min-h-screen flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Texto Hero -->
+            <div class="lg:col-span-5 text-center lg:text-left z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-dex-gold/30 text-dex-gold text-xs font-semibold uppercase tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-dex-gold animate-ping"></span>
+                    Rede Social Tech & Marketplace Freelancer
+                </div>
+                <h1 class="font-orbitron font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-6">
+                    O Universo Tech <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-dex-gold via-yellow-200 to-white">Conectado na 4Dex</span>
+                </h1>
+                <p class="text-slate-300 text-lg mb-8 leading-relaxed font-light">
+                    Uma plataforma revolucionária criada pela <strong class="text-white font-medium">Dextre Tecnologia</strong> para integrar freelancers de elite e clientes em quatro grandes órbitas tecnológicas: <span class="text-dex-dat font-semibold">Dados</span>, <span class="text-dex-def font-semibold">Defesas</span>, <span class="text-dex-des font-semibold">Designs</span> e <span class="text-dex-dev font-semibold">Desenvolvimentos</span>.
+                </p>
+
+                <!-- Botões de Ação -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                    <a href="#pilares" class="px-7 py-3.5 rounded-xl bg-dex-gold text-black font-orbitron font-bold text-sm tracking-wide shadow-lg shadow-dex-gold/20 hover:bg-yellow-400 hover:scale-105 transition duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-compass"></i> Explorar Pilares
+                    </a>
+                    <button id="toggle-orbit-btn" class="px-6 py-3.5 rounded-xl glass-card text-white font-semibold text-sm hover:bg-white/10 transition flex items-center gap-2 border border-white/20">
+                        <i class="fa-solid fa-pause text-dex-gold" id="orbit-icon"></i>
+                        <span id="orbit-status-text">Pausar Órbita</span>
+                    </button>
+                </div>
+
+                <!-- Estatísticas Rápidas -->
+                <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/10 text-center lg:text-left">
+                    <div>
+                        <div class="font-orbitron font-bold text-2xl text-dex-gold">4</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">Pilares Orbitais</div>
+                    </div>
+                    <div>
+                        <div class="font-orbitron font-bold text-2xl text-white">100%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">Especialização</div>
+                    </div>
+                    <div>
+                        <div class="font-orbitron font-bold text-2xl text-dex-gold">Hub</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">Freelancers & Clientes</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualizador Orbital Interativo -->
+            <div class="lg:col-span-7 relative flex justify-center items-center">
+                
+                <!-- Dica Interativa -->
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-dex-card/90 border border-dex-gold/30 px-4 py-1.5 rounded-full text-xs text-dex-gold font-orbitron z-20 shadow-lg flex items-center gap-2 animate-bounce">
+                    <i class="fa-solid fa-hand-pointer"></i> Clique em um planeta para explorar
+                </div>
+
+                <div class="orbit-container" id="orbit-area">
+                    
+                    <!-- Anéis Orbitais -->
+                    <div class="orbit-ring orbit-ring-1"></div>
+                    <div class="orbit-ring orbit-ring-2"></div>
+
+                    <!-- Núcleo Central 4Dex -->
+                    <div class="z-20 relative text-center group cursor-pointer" onclick="openPillarModal('central')">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-dex-gold glow-gold group-hover:scale-110 transition duration-300 relative bg-transparent shadow-[0_0_25px_rgba(255,202,40,0.2)]">
+                            <div class="absolute inset-0 rounded-full bg-dex-gold/10 animate-pulse"></div>
+                            <img src="src/4Dex-Logo-Black-removebg.png" alt="4Dex Logo" class="brand-logo w-full h-full object-cover object-center block" data-light="src/4Dex-Logo-Black-removebg.png" data-dark="src/4Dex-Logo-removebg.png">
+                        </div>
+                    </div>
+
+                    <!-- Planeta 1: DAT (Azul) -->
+                    <div class="planet-wrapper planet-dat" id="planet-dat-wrap">
+                        <a href="Dat/index.html" target="_blank" rel="noopener noreferrer" class="cursor-pointer group flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass-card p-1 border-2 border-dex-dat glow-dat group-hover:scale-125 transition duration-300 relative bg-dex-dark/90">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-dex-dat fill-current">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#2563eb" stroke-width="4"/>
+                                    <ellipse cx="50" cy="50" rx="40" ry="16" fill="none" stroke="#2563eb" stroke-width="3"/>
+                                    <ellipse cx="50" cy="50" rx="16" ry="40" fill="none" stroke="#2563eb" stroke-width="3"/>
+                                    <circle cx="50" cy="20" r="5" fill="#3b82f6"/>
+                                    <circle cx="75" cy="50" r="5" fill="#3b82f6"/>
+                                </svg>
+                            </div>
+                            <span class="mt-2 text-xs font-orbitron font-bold text-dex-dat bg-dex-dark/90 px-2 py-0.5 rounded border border-dex-dat/40 shadow">
+                                DAT
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Planeta 2: DEF (Vermelho) -->
+                    <div class="planet-wrapper planet-def" id="planet-def-wrap">
+                        <a href="Def/index.html" target="_blank" rel="noopener noreferrer" class="cursor-pointer group flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass-card p-1 border-2 border-dex-def glow-def group-hover:scale-125 transition duration-300 relative bg-dex-dark/90">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-dex-def fill-current">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#ef4444" stroke-width="4"/>
+                                    <ellipse cx="50" cy="50" rx="40" ry="16" fill="none" stroke="#ef4444" stroke-width="3"/>
+                                    <ellipse cx="50" cy="50" rx="16" ry="40" fill="none" stroke="#ef4444" stroke-width="3"/>
+                                    <path d="M50 30 L65 40 L65 60 L50 70 L35 60 L35 40 Z" fill="#f87171" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <span class="mt-2 text-xs font-orbitron font-bold text-dex-def bg-dex-dark/90 px-2 py-0.5 rounded border border-dex-def/40 shadow">
+                                DEF
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Planeta 3: DES (Verde) -->
+                    <div class="planet-wrapper planet-des" id="planet-des-wrap">
+                        <a href="Des/index.html" target="_blank" rel="noopener noreferrer" class="cursor-pointer group flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass-card p-1 border-2 border-dex-des glow-des group-hover:scale-125 transition duration-300 relative bg-dex-dark/90">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-dex-des fill-current">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#22c55e" stroke-width="4"/>
+                                    <ellipse cx="50" cy="50" rx="40" ry="16" fill="none" stroke="#22c55e" stroke-width="3"/>
+                                    <ellipse cx="50" cy="50" rx="16" ry="40" fill="none" stroke="#22c55e" stroke-width="3"/>
+                                    <circle cx="35" cy="35" r="6" fill="#4ade80"/>
+                                    <circle cx="65" cy="65" r="6" fill="#4ade80"/>
+                                </svg>
+                            </div>
+                            <span class="mt-2 text-xs font-orbitron font-bold text-dex-des bg-dex-dark/90 px-2 py-0.5 rounded border border-dex-des/40 shadow">
+                                DES
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Planeta 4: DEV (Ciano) -->
+                    <div class="planet-wrapper planet-dev" id="planet-dev-wrap">
+                        <a href="Dev/index.html" target="_blank" rel="noopener noreferrer" class="cursor-pointer group flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass-card p-1 border-2 border-dex-dev glow-dev group-hover:scale-125 transition duration-300 relative bg-dex-dark/90">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-dex-dev fill-current">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#06b6d4" stroke-width="4"/>
+                                    <ellipse cx="50" cy="50" rx="40" ry="16" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                                    <ellipse cx="50" cy="50" rx="16" ry="40" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                                    <path d="M40 45 L30 50 L40 55 M60 45 L70 50 L60 55" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                </svg>
+                            </div>
+                            <span class="mt-2 text-xs font-orbitron font-bold text-dex-dev bg-dex-dark/90 px-2 py-0.5 rounded border border-dex-dev/40 shadow">
+                                DEV
+                            </span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SOBRE A PLATAFORMA 4DEX -->
+    <section id="sobre" class="py-20 px-4 bg-dex-card/50 border-y border-white/5 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-dex-gold font-orbitron font-bold text-sm tracking-widest uppercase mb-2">Conheça a Plataforma</h2>
+                <h3 class="text-3xl sm:text-4xl font-orbitron font-extrabold text-white">Ecossistema Conectado de Tecnologia</h3>
+                <div class="w-20 h-1 bg-dex-gold mx-auto mt-4 rounded-full"></div>
+                <p class="text-slate-300 mt-6 text-lg leading-relaxed font-light">
+                    A <strong class="text-dex-gold">4Dex</strong> é a rede social e marketplace desenvolvida pela <strong class="text-white">Dextre Tecnologia</strong> criada para unir profissionais de alta performance e contratantes exigentes. Ela organiza os serviços essenciais do mundo digital em quatro pilares especializados.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card Freelancers -->
+                <div class="glass-card p-6 rounded-2xl border border-white/10 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-dex-gold/10 border border-dex-gold text-dex-gold flex items-center justify-center text-xl mb-4 font-orbitron font-bold">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <h4 class="font-orbitron font-bold text-xl text-white mb-2">Para Freelancers</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Exiba seu portfólio especializado em DAT, DEF, DES ou DEV. Conecte-se a projetos desafiadores e remunerados com valor justo.
+                    </p>
+                </div>
+
+                <!-- Card Clientes -->
+                <div class="glass-card p-6 rounded-2xl border border-white/10 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-dex-dev/10 border border-dex-dev text-dex-dev flex items-center justify-center text-xl mb-4 font-orbitron font-bold">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h4 class="font-orbitron font-bold text-xl text-white mb-2">Para Clientes</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Encontre especialistas certificados para demandas de inteligência de dados, cibersegurança, design gráfico/UI e desenvolvimento de softwares.
+                    </p>
+                </div>
+
+                <!-- Card Segurança -->
+                <div class="glass-card p-6 rounded-2xl border border-white/10 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-dex-def/10 border border-dex-def text-dex-def flex items-center justify-center text-xl mb-4 font-orbitron font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="font-orbitron font-bold text-xl text-white mb-2">Garantia Dextre</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Intermediação segura de contratações, prazos respeitados e validação técnica das competências sob o selo de qualidade Dextre.
+                    </p>
+                </div>
+
+                <!-- Card Inteligência -->
+                <div class="glass-card p-6 rounded-2xl border border-white/10 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-dex-dat/10 border border-dex-dat text-dex-dat flex items-center justify-center text-xl mb-4 font-orbitron font-bold">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h4 class="font-orbitron font-bold text-xl text-white mb-2">Hub Multidisciplinar</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Combine talentos dos 4 pilares para criar squad virtuais sob medida para o seu projeto transformar o mercado.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DOS 4 PILARES (DAT, DEF, DES, DEV) -->
+    <section id="pilares" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-dex-gold font-orbitron font-bold text-sm tracking-widest uppercase mb-2">Órbitas de Atuação</h2>
+            <h3 class="text-3xl sm:text-4xl font-orbitron font-extrabold text-white">Os 4 Pilares Fundamentais da 4Dex</h3>
+            <p class="text-slate-400 mt-4">Clique nos cards ou nos planetas para detalhar cada especialidade.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- PILAR 1: DAT (Azul) -->
+            <div id="card-dat" onclick="openPillarModal('dat')" class="glass-card p-8 rounded-3xl border-l-4 border-dex-dat cursor-pointer hover:bg-slate-900/80 transition duration-300 relative overflow-hidden group">
+                <div class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fa-solid fa-database text-9xl text-dex-dat"></i>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-dex-dat/20 border border-dex-dat flex items-center justify-center text-dex-dat font-orbitron font-bold text-2xl glow-dat">
+                        DAT
+                    </div>
+                    <div>
+                        <h4 class="font-orbitron font-bold text-2xl text-white">Dat - Dados & Inteligência</h4>
+                        <span class="text-xs text-dex-dat font-semibold uppercase tracking-wider">Análise, IA & Engenharia de Dados</span>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                    Módulo voltado para captação, tratamento, ciência de dados, machine learning e inteligência operacional. Transformamos dados brutos em decisões estratégicas.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 rounded-full bg-dex-dat/10 border border-dex-dat/30 text-dex-dat text-xs">Business Intelligence</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-dat/10 border border-dex-dat/30 text-dex-dat text-xs">Engenharia de Dados</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-dat/10 border border-dex-dat/30 text-dex-dat text-xs">Automação com IA</span>
+                </div>
+            </div>
+
+            <!-- PILAR 2: DEF (Vermelho) -->
+            <div id="card-def" onclick="openPillarModal('def')" class="glass-card p-8 rounded-3xl border-l-4 border-dex-def cursor-pointer hover:bg-slate-900/80 transition duration-300 relative overflow-hidden group">
+                <div class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fa-solid fa-shield-virus text-9xl text-dex-def"></i>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-dex-def/20 border border-dex-def flex items-center justify-center text-dex-def font-orbitron font-bold text-2xl glow-def">
+                        DEF
+                    </div>
+                    <div>
+                        <h4 class="font-orbitron font-bold text-2xl text-white">Def - Defesa & Cibersegurança</h4>
+                        <span class="text-xs text-dex-def font-semibold uppercase tracking-wider">Proteção, Auditoria & Pentest</span>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                    Proteção de infraestruturas digitais, análise de vulnerabilidades, auditorias de segurança e conformidade para manter sistemas blindados contra ameaças.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 rounded-full bg-dex-def/10 border border-dex-def/30 text-dex-def text-xs">Pentest & Auditoria</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-def/10 border border-dex-def/30 text-dex-def text-xs">Segurança em Nuvem</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-def/10 border border-dex-def/30 text-dex-def text-xs">Proteção contra Ataques</span>
+                </div>
+            </div>
+
+            <!-- PILAR 3: DES (Verde) -->
+            <div id="card-des" onclick="openPillarModal('des')" class="glass-card p-8 rounded-3xl border-l-4 border-dex-des cursor-pointer hover:bg-slate-900/80 transition duration-300 relative overflow-hidden group">
+                <div class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fa-solid fa-palette text-9xl text-dex-des"></i>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-dex-des/20 border border-dex-des flex items-center justify-center text-dex-des font-orbitron font-bold text-2xl glow-des">
+                        DES
+                    </div>
+                    <div>
+                        <h4 class="font-orbitron font-bold text-2xl text-white">Des - Design & Interfaces</h4>
+                        <span class="text-xs text-dex-des font-semibold uppercase tracking-wider">UI/UX, Identidade Visual & Experiência</span>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                    Criação de marcas memoráveis, interfaces altamente intuitivas e experiências visuais futuristas centradas na conversão e satisfação do usuário.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 rounded-full bg-dex-des/10 border border-dex-des/30 text-dex-des text-xs">UI/UX Design</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-des/10 border border-dex-des/30 text-dex-des text-xs">Branding & Identidade</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-des/10 border border-dex-des/30 text-dex-des text-xs">Prototipagem Interativa</span>
+                </div>
+            </div>
+
+            <!-- PILAR 4: DEV (Ciano) -->
+            <div id="card-dev" onclick="openPillarModal('dev')" class="glass-card p-8 rounded-3xl border-l-4 border-dex-dev cursor-pointer hover:bg-slate-900/80 transition duration-300 relative overflow-hidden group">
+                <div class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fa-solid fa-code text-9xl text-dex-dev"></i>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-dex-dev/20 border border-dex-dev flex items-center justify-center text-dex-dev font-orbitron font-bold text-2xl glow-dev">
+                        DEV
+                    </div>
+                    <div>
+                        <h4 class="font-orbitron font-bold text-2xl text-white">Dev - Desenvolvimento & Cloud</h4>
+                        <span class="text-xs text-dex-dev font-semibold uppercase tracking-wider">Web, Mobile, APIs & DevOps</span>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                    Desenvolvimento de software completo, de aplicações web modernas a aplicativos mobile e arquiteturas de nuvem robustas e escaláveis.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 rounded-full bg-dex-dev/10 border border-dex-dev/30 text-dex-dev text-xs">Web Apps & SaaS</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-dev/10 border border-dex-dev/30 text-dex-dev text-xs">Mobile iOS & Android</span>
+                    <span class="px-3 py-1 rounded-full bg-dex-dev/10 border border-dex-dev/30 text-dex-dev text-xs">Infraestrutura Cloud</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE SOLUÇÕES DEXTRE -->
+    <section id="solucoes" class="py-20 px-4 bg-dex-card/30 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <h2 class="text-dex-gold font-orbitron font-bold text-sm tracking-widest uppercase mb-2">Capacidades Técnicas</h2>
+                    <h3 class="text-3xl sm:text-4xl font-orbitron font-extrabold text-white">Nossas soluções em tecnologia</h3>
+                </div>
+                <p class="text-slate-400 max-w-md mt-4 md:mt-0 text-sm">
+                    A Dextre Tecnologia supervisiona e garante a qualidade das soluções oferecidas na plataforma 4Dex.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-laptop-code text-3xl text-dex-dev mb-4"></i>
+                    <h4 class="font-orbitron font-bold text-lg text-white mb-2">Desenvolvimento Web</h4>
+                    <p class="text-slate-400 text-sm">Plataformas responsivas, e-commerces e sistemas web de altíssima performance.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-mobile-screen-button text-3xl text-dex-des mb-4"></i>
+                    <h4 class="font-orbitron font-bold text-lg text-white mb-2">Apps Mobile</h4>
+                    <p class="text-slate-400 text-sm">Aplicativos nativos ou híbridos intuitivos com alta taxa de engajamento.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-robot text-3xl text-dex-dat mb-4"></i>
+                    <h4 class="font-orbitron font-bold text-lg text-white mb-2">Automação & IA</h4>
+                    <p class="text-slate-400 text-sm">Integração de bots, agentes inteligentes e otimização de fluxos com inteligência artificial.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-3xl text-dex-des mb-4"></i>
+                    <h4 class="font-orbitron font-bold text-lg text-white mb-2">UI/UX Design</h4>
+                    <p class="text-slate-400 text-sm">Projetos visuais com prototipagem avançada focados na melhor usabilidade do cliente.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-cloud-arrow-up text-3xl text-dex-dev mb-4"></i>
+                    <h4 class="font-orbitron font-bold text-lg text-white mb-2">Infraestrutura Cloud</h4>
+                    <p class="text-slate-400 text-sm">Deploy, automação CI/CD e gerenciamento escalável em nuvem com custo otimizado.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-user-shield text-3xl text-dex-def mb-4"></i>
+                    <h4 class="font-orbitron font-bold text-lg text-white mb-2">Consultoria de Segurança</h4>
+                    <p class="text-slate-400 text-sm">Avaliação técnica, proteção contra vulnerabilidades e suporte especializado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / FORMULÁRIO DE CONTATO -->
+    <section id="contato" class="py-24 px-4 max-w-5xl mx-auto">
+        <div class="glass-card p-8 sm:p-12 rounded-3xl border border-dex-gold/30 relative overflow-hidden shadow-2xl">
+            <!-- Efeito decorativo de luz -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-dex-gold/10 rounded-full blur-3xl -z-10"></div>
+            
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-dex-gold font-orbitron font-bold text-xs uppercase tracking-widest">Faça Parte da Rede</span>
+                <h3 class="text-3xl sm:text-4xl font-orbitron font-black text-white mt-2">Conecte-se à 4Dex</h3>
+                <p class="text-slate-300 mt-4 text-sm sm:text-base">
+                    Seja você um profissional buscando oportunidades no ecossistema ou um cliente precisando da solução ideal para seu projeto.
+                </p>
+            </div>
+
+            <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-orbitron uppercase text-slate-300 mb-2">Seu Nome</label>
+                        <input type="text" required placeholder="Digite seu nome completo" class="w-full bg-dex-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-dex-gold transition text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-orbitron uppercase text-slate-300 mb-2">E-mail Profissional</label>
+                        <input type="email" required placeholder="seuemail@dominio.com" class="w-full bg-dex-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-dex-gold transition text-sm">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-orbitron uppercase text-slate-300 mb-2">Eu sou</label>
+                        <select class="w-full bg-dex-dark/80 border border-white/10 rounded-xl px-4 py-3 text-slate-300 focus:outline-none focus:border-dex-gold transition text-sm">
+                            <option value="cliente">Cliente buscando soluções</option>
+                            <option value="freelancer">Freelancer buscando projetos</option>
+                            <option value="parceiro">Parceiro estratégico</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-orbitron uppercase text-slate-300 mb-2">Interesse Principal</label>
+                        <select class="w-full bg-dex-dark/80 border border-white/10 rounded-xl px-4 py-3 text-slate-300 focus:outline-none focus:border-dex-gold transition text-sm">
+                            <option value="dat">DAT - Dados & Inteligência</option>
+                            <option value="def">DEF - Defesa & Cibersegurança</option>
+                            <option value="des">DES - Design & UX</option>
+                            <option value="dev">DEV - Desenvolvimento & Cloud</option>
+                            <option value="todos">Todos os Pilares</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-orbitron uppercase text-slate-300 mb-2">Mensagem ou Detalhes do Projeto</label>
+                    <textarea rows="4" required placeholder="Descreva brevemente sua necessidade..." class="w-full bg-dex-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-dex-gold transition text-sm"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-dex-gold-dark via-dex-gold to-yellow-300 text-black font-orbitron font-extrabold text-base tracking-wider uppercase hover:shadow-[0_0_25px_rgba(255,202,40,0.4)] hover:scale-[1.01] transition duration-200">
+                    Enviar e Conectar
+                </button>
+            </form>
+
+            <div id="form-success-msg" class="hidden text-center py-8">
+                <i class="fa-solid fa-circle-check text-5xl text-dex-des mb-4"></i>
+                <h4 class="font-orbitron font-bold text-2xl text-white">Mensagem Recebida!</h4>
+                <p class="text-slate-300 mt-2 text-sm">A equipe da 4Dex & Dextre Tecnologia entrará em contato em breve.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL INTERATIVO PARA OS PLANETAS / PILARES -->
+    <div id="pillar-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-2xl w-full rounded-3xl border border-white/20 p-6 sm:p-8 relative animate-fade-in shadow-2xl">
+            <!-- Botão Fechar -->
+            <button onclick="closePillarModal()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center text-lg transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Conteúdo Dinâmico do Modal -->
+            <div id="modal-content">
+                <!-- Injetado via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-dex-dark border-t border-white/10 py-12 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-dex-gold/20 border border-dex-gold flex items-center justify-center overflow-hidden p-1">
+                    <img src="src/4Dex-Logo-removebg.png" alt="4Dex Logo" class="brand-logo w-full h-full object-cover rounded-full" data-light="src/4Dex-Logo-Black-removebg.png" data-dark="src/4Dex-Logo-removebg.png">
+                </div>
+                <span class="font-orbitron font-bold text-lg text-white">4DEX</span>
+                <span class="text-slate-500 text-sm">| Uma iniciativa Dextre Tecnologia</span>
+            </div>
+
+            <div class="flex gap-6 text-sm text-slate-400">
+                <a href="#ecossistema" class="hover:text-dex-gold transition">Ecossistema</a>
+                <a href="#pilares" class="hover:text-dex-gold transition">Pilares</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=dextretecnologia.oficial@gmail.com&su=Escreva%20aqui%20seu%20Assunto" target="_blank" class="hover:text-dex-gold transition">Contato Oficial</a>
+            </div>
+
+            <p class="text-xs text-slate-500">
+                &copy; 2026 Dextre Tecnologia. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CONTROLS -->
+    <script>
+        const body = document.body;
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const themeIcon = document.getElementById('theme-icon');
+
+        function applyTheme(isLight) {
+            body.classList.toggle('light-mode', isLight);
+            const icon = isLight ? 'fa-sun' : 'fa-moon';
+            if (themeIcon) {
+                themeIcon.className = `fa-solid ${icon}`;
+            }
+            if (themeToggleMobile) {
+                themeToggleMobile.innerHTML = `<i class="fa-solid ${icon}"></i> ${isLight ? 'Tema claro' : 'Tema escuro'}`;
+            }
+
+            document.querySelectorAll('.brand-logo').forEach((img) => {
+                img.src = isLight ? img.dataset.light : img.dataset.dark;
+            });
+
+            document.querySelectorAll('img[alt="4Dex Logo"]').forEach((img) => {
+                if (!img.classList.contains('brand-logo')) {
+                    img.src = isLight ? 'src/4Dex-Logo-Black-removebg.png' : 'src/4Dex-Logo-removebg.png';
+                }
+            });
+
+            localStorage.setItem('dex-theme', isLight ? 'light' : 'dark');
+        }
+
+        const savedTheme = localStorage.getItem('dex-theme');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        applyTheme(savedTheme ? savedTheme === 'light' : prefersLight);
+
+        [themeToggle, themeToggleMobile].forEach(btn => {
+            if (!btn) return;
+            btn.addEventListener('click', () => {
+                const isLight = !body.classList.contains('light-mode');
+                applyTheme(isLight);
+            });
+        });
+
+        // Dados dos Pilares da 4Dex
+        const pillarData = {
+            central: {
+                title: "4DEX - Núcleo Central",
+                subtitle: "O Ecossistema Integrado",
+                colorClass: "text-dex-gold",
+                bgBorderClass: "border-dex-gold",
+                icon: "fa-atom",
+                description: "A 4Dex é a plataforma centralizadora de serviços da Dextre Tecnologia. Unindo quatro grandes galáxias de conhecimento técnico para transformar ideias inovadoras em soluções reais, com gestão simplificada para clientes e portfólio de destaque para freelancers.",
+                bullets: [
+                    "Gestão centralizada de projetos tech",
+                    "Acesso rápido a talentos em Dados, Defesa, Design e Dev",
+                    "Garantia e reputação Dextre Tecnologia",
+                    "Rede colaborativa entre freelancers e clientes"
+                ]
+            },
+            dat: {
+                title: "DAT - Dados & Inteligência",
+                subtitle: "Azul Orbital | Data, Analytics & AI",
+                colorClass: "text-dex-dat",
+                bgBorderClass: "border-dex-dat",
+                icon: "fa-database",
+                description: "O pilar DAT engloba soluções em Big Data, Business Intelligence, Inteligência Artificial e Ciência de Dados. Conectamos especialistas capazes de extrair valor dos seus dados para tomadas de decisão inteligentes.",
+                bullets: [
+                    "Dashboards executivos e relatórios de BI",
+                    "Modelos preditivos e Machine Learning",
+                    "Automação de processos com Inteligência Artificial",
+                    "Tratamento e higienização de bases de dados"
+                ]
+            },
+            def: {
+                title: "DEF - Defesa & Cibersegurança",
+                subtitle: "Vermelho Orbital | Defesa de Sistemas & CyberSec",
+                colorClass: "text-dex-def",
+                bgBorderClass: "border-dex-def",
+                icon: "fa-shield-halved",
+                description: "O pilar DEF é dedicado à blindagem digital. Especialistas em cibersegurança atuam na proteção preventiva e corretiva de infraestruturas, garantindo a conformidade e a segurança total das operações.",
+                bullets: [
+                    "Testes de Invasão (Pentest) em aplicações e redes",
+                    "Auditoria de código e conformidade de segurança",
+                    "Proteção de dados críticos e servidores Cloud",
+                    "Planos de resposta a incidentes e monitoramento"
+                ]
+            },
+            des: {
+                title: "DES - Design & Interfaces",
+                subtitle: "Verde Orbital | UI/UX & Experiência Visual",
+                colorClass: "text-dex-des",
+                bgBorderClass: "border-dex-des",
+                icon: "fa-palette",
+                description: "O pilar DES foca na experiência do usuário e na criação estética funcional. Do design de interfaces de sistemas complexos até marcas e materiais promocionais focados em alta conversão.",
+                bullets: [
+                    "Design de interfaces para Web e Aplicativos (UI/UX)",
+                    "Criação de marcas e sistemas de design (Design System)",
+                    "Prototipagem interativa navegável",
+                    "Pesquisas de usabilidade e testes com usuários"
+                ]
+            },
+            dev: {
+                title: "DEV - Desenvolvimento & Nuvem",
+                subtitle: "Ciano Orbital | Software, Mobile & Cloud",
+                colorClass: "text-dex-dev",
+                bgBorderClass: "border-dex-dev",
+                icon: "fa-code",
+                description: "O pilar DEV constrói a engenharia por trás do seu negócio. De sites rápidos e modernos a sistemas distribuídos e aplicativos móveis para iOS e Android.",
+                bullets: [
+                    "Desenvolvimento Web (Frontend & Backend)",
+                    "Aplicativos Mobile Nativos e Híbridos",
+                    "Arquitetura de microsserviços e integração de APIs",
+                    "DevOps, Docker e gerenciamento de servidores Cloud"
+                ]
+            }
+        };
+
+        // Controle de Animação do Sistema Orbital
+        let isPaused = false;
+        const orbitArea = document.getElementById('orbit-area');
+        const toggleBtn = document.getElementById('toggle-orbit-btn');
+        const orbitIcon = document.getElementById('orbit-icon');
+        const orbitStatusText = document.getElementById('orbit-status-text');
+
+        const planetWrappers = [
+            document.getElementById('planet-dat-wrap'),
+            document.getElementById('planet-def-wrap'),
+            document.getElementById('planet-des-wrap'),
+            document.getElementById('planet-dev-wrap')
+        ];
+
+        function toggleOrbit() {
+            isPaused = !isPaused;
+            planetWrappers.forEach(wrap => {
+                if (isPaused) {
+                    wrap.classList.add('paused');
+                } else {
+                    wrap.classList.remove('paused');
+                }
+            });
+
+            if (isPaused) {
+                orbitIcon.className = "fa-solid fa-play text-dex-gold";
+                orbitStatusText.innerText = "Retomar Órbita";
+            } else {
+                orbitIcon.className = "fa-solid fa-pause text-dex-gold";
+                orbitStatusText.innerText = "Pausar Órbita";
+            }
+        }
+
+        toggleBtn.addEventListener('click', toggleOrbit);
+
+        // Modal Logic
+        const modal = document.getElementById('pillar-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openPillarModal(pillarKey) {
+            const data = pillarData[pillarKey];
+            if (!data) return;
+
+            modalContent.innerHTML = `
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 border ${data.bgBorderClass} flex items-center justify-center ${data.colorClass} text-2xl">
+                        <i class="fa-solid ${data.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-orbitron font-bold text-2xl text-white">${data.title}</h3>
+                        <p class="text-xs uppercase font-semibold ${data.colorClass}">${data.subtitle}</p>
+                    </div>
+                </div>
+
+                <p class="text-slate-300 text-sm leading-relaxed mb-6 font-light">
+                    ${data.description}
+                </p>
+
+                <h4 class="text-xs font-orbitron font-bold uppercase text-slate-400 mb-3 tracking-wider">Principais Soluções & Habilidades:</h4>
+                <ul class="space-y-2 mb-8">
+                    ${data.bullets.map(bullet => `
+                        <li class="flex items-center gap-2 text-sm text-slate-200">
+                            <i class="fa-solid fa-check text-dex-gold text-xs"></i>
+                            <span>${bullet}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="#contato" onclick="closePillarModal()" class="flex-1 py-3 text-center rounded-xl bg-dex-gold text-black font-orbitron font-bold text-sm hover:bg-yellow-400 transition">
+                        Solicitar Serviço / Projeto
+                    </a>
+                    <button onclick="closePillarModal()" class="px-5 py-3 rounded-xl border border-white/20 text-slate-300 font-semibold text-sm hover:bg-white/10 transition">
+                        Fechar
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closePillarModal() {
+            modal.classList.add('hidden');
+        }
+
+        // Fechar ao clicar fora do modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closePillarModal();
+            }
+        });
+
+        // Formulário Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contact-form').classList.add('hidden');
+            document.getElementById('form-success-msg').classList.remove('hidden');
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
