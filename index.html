@@ -313,7 +313,7 @@
     <header class="fixed top-0 left-0 right-0 z-50 bg-dex-dark/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center gap-3 group">
-                <img src="src/4Dex-Logo-Black-removebg.png" alt="4Dex Logo" class="brand-logo h-12 sm:h-14 w-auto object-contain drop-shadow-[0_0_12px_rgba(255,202,40,0.35)]" data-light="src/4Dex-Logo-Black-removebg.png" data-dark="src/4Dex-Logo-removebg.png">
+                <img src="./src/4Dex-White-removebg-preview.png" alt="4Dex Logo" class="brand-logo h-12 sm:h-14 w-auto object-contain drop-shadow-[0_0_12px_rgba(255,202,40,0.35)]" data-light="./src/4Dex-Black-removebg-preview.png" data-dark="./src/4Dex-White-removebg-preview.png">
             </a>
 
             <!-- Navigation Links -->
@@ -413,7 +413,7 @@
                     <div class="z-20 relative text-center group cursor-pointer" onclick="openPillarModal('central')">
                         <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-dex-gold glow-gold group-hover:scale-110 transition duration-300 relative bg-transparent shadow-[0_0_25px_rgba(255,202,40,0.2)]">
                             <div class="absolute inset-0 rounded-full bg-dex-gold/10 animate-pulse"></div>
-                            <img src="src/4Dex-Logo-Black-removebg.png" alt="4Dex Logo" class="brand-logo w-full h-full object-cover object-center block" data-light="src/4Dex-Logo-Black-removebg.png" data-dark="src/4Dex-Logo-removebg.png">
+                            <img src="./src/4Dex-White-removebg-preview.png" alt="4Dex Logo" class="brand-logo w-full h-full object-cover object-center block" data-light="./src/4Dex-Black-removebg-preview.png" data-dark="./src/4Dex-White-removebg-preview.png">
                         </div>
                     </div>
 
@@ -800,7 +800,7 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-dex-gold/20 border border-dex-gold flex items-center justify-center overflow-hidden p-1">
-                    <img src="src/4Dex-Logo-removebg.png" alt="4Dex Logo" class="brand-logo w-full h-full object-cover rounded-full" data-light="src/4Dex-Logo-Black-removebg.png" data-dark="src/4Dex-Logo-removebg.png">
+                    <img src="./src/4Dex-White-removebg-preview.png" alt="4Dex Logo" class="brand-logo w-full h-full object-cover rounded-full" data-light="./src/4Dex-Black-removebg-preview.png" data-dark="./src/4Dex-White-removebg-preview.png">
                 </div>
                 <span class="font-orbitron font-bold text-lg text-white">4DEX</span>
                 <span class="text-slate-500 text-sm">| Uma iniciativa Dextre Tecnologia</span>
@@ -841,7 +841,7 @@
 
             document.querySelectorAll('img[alt="4Dex Logo"]').forEach((img) => {
                 if (!img.classList.contains('brand-logo')) {
-                    img.src = isLight ? 'src/4Dex-Logo-Black-removebg.png' : 'src/4Dex-Logo-removebg.png';
+                    img.src = isLight ? './src/4Dex-Black-removebg-preview.png' : './src/4Dex-White-removebg-preview.png';
                 }
             });
 
