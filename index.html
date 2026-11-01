@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4Dex | Ecossistema de Tecnologia & Marketplace Tech</title>
+    <title>4Dex</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./src/favicon.ico">
     <script>
         tailwind.config = {
             theme: {
@@ -23,7 +24,7 @@
                         'dex-dat': '#2563eb', // Azul
                         'dex-def': '#ef4444', // Vermelho
                         'dex-des': '#22c55e', // Verde
-                        'dex-dev': '#06b6d4', // Ciano
+                        'dex-dev': '#ffca28', // Amarelo
                     },
                     fontFamily: {
                         orbitron: ['Orbitron', 'sans-serif'],
@@ -179,7 +180,7 @@
         .glow-dat { filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.8)); }
         .glow-def { filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.8)); }
         .glow-des { filter: drop-shadow(0 0 12px rgba(34, 197, 94, 0.8)); }
-        .glow-dev { filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.8)); }
+        .glow-dev { filter: drop-shadow(0 0 12px rgba(255, 202, 40, 0.8)); }
         .glow-gold { filter: drop-shadow(0 0 20px rgba(255, 202, 40, 0.6)); }
 
         .glass-card {
@@ -469,15 +470,15 @@
                         </a>
                     </div>
 
-                    <!-- Planeta 4: DEV (Ciano) -->
+                    <!-- Planeta 4: DEV (Amarelo) -->
                     <div class="planet-wrapper planet-dev" id="planet-dev-wrap">
                         <a href="Dev/index.html" target="_blank" rel="noopener noreferrer" class="cursor-pointer group flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2">
                             <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass-card p-1 border-2 border-dex-dev glow-dev group-hover:scale-125 transition duration-300 relative bg-dex-dark/90">
                                 <svg viewBox="0 0 100 100" class="w-full h-full text-dex-dev fill-current">
-                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#06b6d4" stroke-width="4"/>
-                                    <ellipse cx="50" cy="50" rx="40" ry="16" fill="none" stroke="#06b6d4" stroke-width="3"/>
-                                    <ellipse cx="50" cy="50" rx="16" ry="40" fill="none" stroke="#06b6d4" stroke-width="3"/>
-                                    <path d="M40 45 L30 50 L40 55 M60 45 L70 50 L60 55" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#ffca28" stroke-width="4"/>
+                                    <ellipse cx="50" cy="50" rx="40" ry="16" fill="none" stroke="#ffca28" stroke-width="3"/>
+                                    <ellipse cx="50" cy="50" rx="16" ry="40" fill="none" stroke="#ffca28" stroke-width="3"/>
+                                    <path d="M40 45 L30 50 L40 55 M60 45 L70 50 L60 55" stroke="#ffca28" stroke-width="4" stroke-linecap="round" fill="none"/>
                                 </svg>
                             </div>
                             <span class="mt-2 text-xs font-orbitron font-bold text-dex-dev bg-dex-dark/90 px-2 py-0.5 rounded border border-dex-dev/40 shadow">
@@ -634,7 +635,7 @@
                 </div>
             </div>
 
-            <!-- PILAR 4: DEV (Ciano) -->
+            <!-- PILAR 4: DEV (Amarelo) -->
             <div id="card-dev" onclick="openPillarModal('dev')" class="glass-card p-8 rounded-3xl border-l-4 border-dex-dev cursor-pointer hover:bg-slate-900/80 transition duration-300 relative overflow-hidden group">
                 <div class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition">
                     <i class="fa-solid fa-code text-9xl text-dex-dev"></i>
